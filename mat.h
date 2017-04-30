@@ -112,6 +112,7 @@ class Mat4 {
 	//---[ Private Variable Declarations ]-----------------
 
 		// matrix elements in row-major order
+public:
 	T		n[16];
 
 public:
