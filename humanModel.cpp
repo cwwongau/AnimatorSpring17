@@ -3,6 +3,7 @@
 #include "modelerview.h"
 #include "modelerapp.h"
 #include "modelerdraw.h"
+#include "particleSystem.h"
 #include <FL/gl.h>
 #include <math.h>
 #include <iostream>
@@ -232,141 +233,7 @@ void SampleModel::draw()
 		glPopMatrix();
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
-	/*
-	// draw the sample model
-	setAmbientColor(.1f, .1f, .1f);
-	setDiffuseColor(COLOR_GREEN);
-	glPushMatrix();
-	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
-
-		//body
-		glPushMatrix();
-		glTranslated(-0.5, 2.25, -0.5);
-		glScaled(1, 1.5, 1);
-		drawBox(1, 1, 1);
-		glPopMatrix();
-
-		//head
-		glPushMatrix();
-		glTranslated(0, 3.75, 0);
-		glScaled(VAL(HEAD_SCALE), VAL(HEAD_SCALE), VAL(HEAD_SCALE));
-		glRotated(-90, 1.0, 0.0, 0.0);
-		drawCylinder(1, 1, 1);
-		glPopMatrix();
-
-		//rightArm
-		//shoulder
-		glPushMatrix();
-		glTranslated(-0.75, 3.5, 0);
-		drawSphere(0.25);
-			//uArm
-			glPushMatrix();
-			glTranslated(-0.25, -0.75, -0.25);
-			glScaled(0.5, 0.75, 0.5);
-			drawBox(1, 1, 1);
-			glPopMatrix();
-		//elbow
-		glTranslated(0, -0.85, 0);
-		drawSphere(0.25);
-		//lArm
-		glTranslated(-0.25, -0.85, -0.25);
-		glScaled(0.5, 0.75, 0.5);
-		drawBox(1, 1, 1);
-		glPopMatrix();
-
-		//leftArm
-		//shoulder
-		glPushMatrix();
-		glTranslated(0.75, 3.5, 0);
-		drawSphere(0.25);
-			//uArm
-			glPushMatrix();
-			glTranslated(-0.25, -0.75, -0.25);
-			glScaled(0.5, 0.75, 0.5);
-			drawBox(1, 1, 1);
-			glPopMatrix();
-		//elbow
-		glTranslated(0, -0.85, 0);
-		drawSphere(0.25);
-		//lArm
-		glTranslated(-0.25, -0.85, -0.25);
-		glScaled(0.5, 0.75, 0.5);
-		drawBox(1, 1, 1);
-		glPopMatrix();
-	
-		//lowerBody
-		glPushMatrix();
-		glTranslated(0, 2.15, 0);
-			glPushMatrix();
-			glScaled(0.5, 0.1, 0.5);
-			glRotated(-90, 1.0, 0.0, 0.0);
-			drawCylinder(1, 1, 1);
-			glPopMatrix();
-			//glPopMatrix();
-
-			//leftLeg
-			//uArm
-			glPushMatrix();
-			//ankle
-			glTranslated(-0.25, -0.1, 0);
-			drawSphere(0.25);
-				//lArm
-				glPushMatrix();
-				glTranslated(-0.25, -1.1, -0.25);
-				glScaled(0.45, 1, 0.45);
-				drawBox(1, 1, 1);
-				glPopMatrix();
-			//elbow
-			glTranslated(0, -1.1, 0);
-			drawSphere(0.25);
-			//lArm
-			glTranslated(-0.25, -0.9, -0.25);
-			glScaled(0.45, 0.75, 0.45);
-			drawBox(1, 1, 1);
-			glPopMatrix();
-
-
-
-			//rightLeg
-			//uArm
-			glPushMatrix();
-			//ankle
-			glTranslated(0.25, -0.1, 0);
-			drawSphere(0.25);
-			//lArm
-				glPushMatrix();
-				glTranslated(-0.25, -1.1, -0.25);
-				glScaled(0.45, 1, 0.45);
-				drawBox(1, 1, 1);
-				glPopMatrix();
-			//elbow
-			glTranslated(0, -1.1, 0);
-			drawSphere(0.25);
-			//lArm
-			glTranslated(-0.25, -0.9, -0.25);
-			glScaled(0.45, 0.75, 0.45);
-			drawBox(1, 1, 1);
-			glPopMatrix();
-	
-		glPopMatrix();
-		//lowerBodyEnd
-	glPopMatrix();
-	*/
-	/*
-	// draw cannon
-	glPushMatrix();
-	glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
-	glRotated(-90, 1.0, 0.0, 0.0);
-	drawCylinder(VAL(HEIGHT), 0.1, 0.1);
-
-	glTranslated(0.0, 0.0, VAL(HEIGHT));
-	drawCylinder(1, 1.0, 0.9);
-
-	glTranslated(0.0, 0.0, 0.5);
-	glRotated(90, 1.0, 0.0, 0.0);
-	drawCylinder(4, 0.1, 0.2);
-	glPopMatrix();
-	*/	
+	endDraw();
 }
 
 int main()
@@ -391,6 +258,19 @@ int main()
 	controls[RIGHT_ARM_ROTATE] = ModelerControl("Right Arm Rotatation", 0, 90, 1, 0);
 	controls[RIGHT_SHOULDER_ZY_ROTATE] = ModelerControl("Right Shoulder Rotate ZY", -180, 180, 1, 0);
 	controls[RIGHT_SHOULDER_XY_ROTATE] = ModelerControl("Right Shoulder Rotate XY", 180, 360, 1, 0);
+
+	//setup particlesystem
+	ParticleSystem *ps = new ParticleSystem();
+
+
+
+
+
+
+
+	ModelerApplication::Instance()->SetParticleSystem(ps);
     ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
-    return ModelerApplication::Instance()->Run();
+	
+	   
+	return ModelerApplication::Instance()->Run();
 }

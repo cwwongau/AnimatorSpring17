@@ -17,6 +17,8 @@
 #define __PARTICLE_SYSTEM_H__
 
 #include "vec.h"
+#include <vector>
+#include "particle.h"
 
 
 
@@ -84,10 +86,19 @@ protected:
 										// These 2 variables are used by the UI for
 										// updating the grey indicator 
 	float bake_end_time;				// time at which baking ended
+	float maxFrames;
 
 	/** General state variables **/
 	bool simulate;						// flag for simulation mode
 	bool dirty;							// flag for updating ui (don't worry about this)
+	float const GRAVITY = 9.81f;
+	float gravityEffect;
+	int particleNum;
+	vector<particle> particlesList;
+	vector<particle>* bakedParticles;
+
+	float pLife;
+	Vec3f pPos;
 
 };
 
