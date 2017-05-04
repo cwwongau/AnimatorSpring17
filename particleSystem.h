@@ -66,7 +66,7 @@ public:
 	// of baked particles (without leaking memory).
 	virtual void clearBaked();	
 
-
+	virtual void addParticles(Vec3f worldPos, int numOfParticles);
 
 	// These accessor fxns are implemented for you
 	float getBakeStartTime() { return bake_start_time; }

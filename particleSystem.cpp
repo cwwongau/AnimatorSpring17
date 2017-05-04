@@ -22,7 +22,7 @@ ParticleSystem::ParticleSystem() : bake_fps(30), simulate(false), dirty(false), 
 	srand(time(0));
 
 	// add the controlling forces
-	forces.push_back(new Gravity(Vec3f(0, -0.02, 0)));
+	forces.push_back(new Gravity(Vec3f(0, -1.0, 0)));
 }
 
 
@@ -106,7 +106,33 @@ void ParticleSystem::clearBaked()
 	bakedParticles.clear();
 }
 
+void ParticleSystem::addParticles(Vec3f worldPos, int numOfParticles)
+{
+	if (simulate) {
+		map<float, vector<Particle>>::iterator it = bakedParticles.find(currentTime + bake_fps);
+		if (it == bakedParticles.end()) {
+			for (int i = 0; i < numOfParticles; i++)
+			{
+				Particle p(Vec3f(worldPos[0], worldPos[1], worldPos[2]), 1.0, 5.0);
 
+				float mag = rand() % 10 / 10.0 + 0.2;
+				float theta = rand() % 360 / 57.3;
+
+				float zSpeed = rand() % 10 / 10.0 + 2;
+				float ySpeed = cos(theta) * mag;
+				float xSpeed = sin(theta) * mag;
+
+				p.setVelocity(Vec3f(xSpeed, ySpeed, zSpeed));
+				
+				for (vector<Force*>::iterator iter = forces.begin(); iter != forces.end(); iter++) {
+					p.addForce(*iter);
+				}
+
+				particles.push_back(p);
+			}
+		}
+	}
+}
 
 
 

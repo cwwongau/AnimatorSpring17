@@ -95,6 +95,8 @@ void SampleModel::draw()
 	// projection matrix, don't bother with this ...
     ModelerView::draw();
 
+	Mat4f cameraTrans = getModelViewMatrix();
+
 	double torsoRadius = VAL(TORSORADIUS);
 	double torsoHeight = VAL(TORSOHEIGHT);
 	double upperArmLength = VAL(UPPERARMLENGTH);
@@ -128,6 +130,12 @@ void SampleModel::draw()
 			glTranslated(-torsoRadius, lowerBodyHeight, 0);
 			glScaled(2.0 * torsoRadius, torsoHeight, torsoRadius);
 			drawBox(1, 1, 1);
+			Mat4f transMatrix = getModelViewMatrix();
+			Mat4f worldTransMat = cameraTrans.inverse() * transMatrix;
+			Vec4f worldPoint = worldTransMat * Vec4f(0, 0, 0, 1);
+
+			ParticleSystem *ps = ModelerApplication::Instance()->GetParticleSystem();
+			ps->addParticles(Vec3f(worldPoint[0] + torsoRadius, worldPoint[1] + torsoHeight / 2, worldPoint[2] + torsoRadius / 2), 10);
 			glPopMatrix();
 
 			//head
@@ -262,15 +270,8 @@ int main()
 	//setup particlesystem
 	ParticleSystem *ps = new ParticleSystem();
 
-
-
-
-
-
-
 	ModelerApplication::Instance()->SetParticleSystem(ps);
     ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
-	
-	   
+		   
 	return ModelerApplication::Instance()->Run();
 }

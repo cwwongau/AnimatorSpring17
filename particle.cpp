@@ -15,7 +15,8 @@ void Particle::move(float delta) {
 }
 
 void Particle::draw() {
-	setDiffuseColor(1, 1, 1);
+	setDiffuseColor(0, 1, 0);
+	glPointSize(2.5);
 	glPushMatrix();
 		glBegin(GL_POINTS);
 		glVertex3f(position[0], position[1], position[2]);
