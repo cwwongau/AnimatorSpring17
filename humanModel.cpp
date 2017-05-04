@@ -134,8 +134,10 @@ void SampleModel::draw()
 			Mat4f worldTransMat = cameraTrans.inverse() * transMatrix;
 			Vec4f worldPoint = worldTransMat * Vec4f(0, 0, 0, 1);
 
-			ParticleSystem *ps = ModelerApplication::Instance()->GetParticleSystem();
-			ps->addParticles(Vec3f(worldPoint[0] + torsoRadius, worldPoint[1] + torsoHeight / 2, worldPoint[2] + torsoRadius / 2), 10);
+			ParticleSystem *ps1 = ModelerApplication::Instance()->GetParticleSystem();
+			ParticleSystem *ps2 = ModelerApplication::Instance()->GetParticleSystem();
+			ps1->addParticles(Vec3f(worldPoint[0] + torsoRadius*3/2, worldPoint[1] + torsoHeight *3/ 4, worldPoint[2] ), 10,Vec3f (1,2,-3));
+			ps2->addParticles(Vec3f(worldPoint[0] + torsoRadius/2, worldPoint[1] + torsoHeight *3/ 4, worldPoint[2] ), 10,Vec3f (-1,2,-3));
 			glPopMatrix();
 
 			//head

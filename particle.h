@@ -9,21 +9,41 @@
 
 class Force {
 public:
-	virtual void applyTo(Vec3f& speed, float val) = 0;
+	virtual void applyTo(Vec3f& speed, float val, Vec3f wp) = 0;
 };
 
 class Gravity : public Force {
 public:
 	Vec3f val;
 	Gravity(Vec3f v) : val(v) {}
-	virtual void applyTo(Vec3f& speed, float d) {
+	virtual void applyTo(Vec3f& speed, float d, Vec3f wp) {
 		speed += val * d;
 	}
 };
 
+class Engine : public Force {
+public:
+	Vec3f val;
+	Engine(Vec3f wp) : cp(wp), op(wp) {}
+	virtual void applyTo(Vec3f& speed, float d, Vec3f wp) {
+		op = cp;
+		cp = wp;
+		speed += op;
+		speed -= cp;
+		if (cp[2]-wp[2]<0 && speed[2]<cp[2] - wp[2]) speed[2] = cp[2] - wp[2];
+
+	}
+private:
+	Vec3f cp;
+	Vec3f op;
+};
+
+
+
 class Particle {
 public:
 	Particle(Vec3f p, float m, float t);
+	Particle(Vec3f p, Vec3f v, float m, float t);
 	~Particle() {};
 
 	Vec3f getPosition() { return position; };
@@ -36,7 +56,7 @@ public:
 	void setTimeAlive(float time) { timeAlive = time; };
 
 	void addForce(Force* f);
-	void move(float delta);
+	void move(float delta, Vec3f wp);
 	void draw();
 
 private:
@@ -48,5 +68,6 @@ private:
 	vector<Force*> forces;
 
 };
+
 
 #endif

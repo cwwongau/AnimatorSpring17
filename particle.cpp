@@ -3,13 +3,15 @@
 
 Particle::Particle(Vec3f pos, float m, float t) : position(pos), mass(m), lifeSpan(t) {}
 
+Particle::Particle(Vec3f pos, Vec3f v,float m, float t) : position(pos), velocity(v), mass(m), lifeSpan(t) {}
+
 void Particle::addForce(Force* f) {
 	this->forces.push_back(f);
 }
 
-void Particle::move(float delta) {
+void Particle::move(float delta, Vec3f wp) {
 	for (vector<Force*>::iterator iter = forces.begin(); iter != forces.end(); iter++) {
-		(*iter)->applyTo(this->velocity, delta);
+		(*iter)->applyTo(this->velocity, delta, wp);
 	}
 	this->position += this->velocity * delta;
 }
