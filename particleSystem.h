@@ -18,8 +18,10 @@
 
 #include "vec.h"
 #include <vector>
+#include <map>
 #include "particle.h"
-
+#include "modelerdraw.h"
+#include "modelerview.h"
 
 
 class ParticleSystem {
@@ -91,13 +93,18 @@ protected:
 	/** General state variables **/
 	bool simulate;						// flag for simulation mode
 	bool dirty;							// flag for updating ui (don't worry about this)
-	float const GRAVITY = 9.81f;
+	const float GRAVITY = 9.81f;
 	float gravityEffect;
 	int particleNum;
-	vector<particle> particlesList;
-	vector<particle>* bakedParticles;
+
+	float currentTime;
+	vector<Particle> particles;
+	vector<Force*> forces;
+
+	map<float, vector<Particle>> bakedParticles;
 
 	float pLife;
+	float mass;
 	Vec3f pPos;
 
 };
